@@ -1,12 +1,10 @@
-import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from numpy.typing import NDArray
-from typing import Optional
 
 class CaminataAleatoria:
-    def __init__(self, deltaT: float, N: int, P: int, seed: Optional[int] = None):
+    def __init__(self, deltaT: float, N: int, P: int, seed: int | None = None):
         self.deltaT = deltaT
         self.N = N
         self.P = P
