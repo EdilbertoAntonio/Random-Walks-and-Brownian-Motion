@@ -3,36 +3,40 @@ import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from numpy.typing import NDArray
 
-class CaminataAleatoria:
-    def __init__(self, deltaT: float, N: int, P: int, seed: int | None = None):
-        self.deltaT = deltaT
-        self.N = N
-        self.P = P
+class RandomWalk:
+    def __init__(self, time_step: float, num_steps: int, num_walks: int, seed: int | None = None):
+        self.time_step = time_step
+        self.num_steps = num_steps
+        self.num_walks = num_walks
         self.seed = seed
-        self.tiempo: NDArray = np.array([])
-        self.caminatas: NDArray = np.array([])
+        self.time: NDArray = np.array([])
+        self.walks: NDArray = np.array([])
         
-    def generar(self) -> None:
-        ''' Generar las P caminatas aleatorias con N pasos '''
+    def simulate(self) -> np.ndarray:
+        ''' Generate num_walks random walks, each with num_steps steps.
+            Returns a ndarray of shape (num_steps, num_walks) containing the simulated walks.
+        '''
         if self.seed is not None:
             np.random.seed(self.seed)
             
-        self.tiempo = np.arange(self.N) * self.deltaT
-        factor_aleatorio = np.random.normal(0,1,(self.N, self.P))
-        self.caminatas = np.cumsum(np.sqrt(self.deltaT) * factor_aleatorio, axis=0)
+        self.time = np.arange(self.num_steps) * self.time_step
+        random_steps = np.random.normal(0,1,(self.num_steps, self.num_walks))
+        self.walks = np.cumsum(np.sqrt(self.time_step) * random_steps, axis=0)
+
+        return self.walks
         
-    def graficar(self) -> Figure:
-        ''' Realiza y devuelve la gráfica de las P caminatas '''
-        if self.caminatas.size ==0:
-            raise ValueError('Genera primero lo camniatas con .generar()')
+    def plot(self) -> Figure:
+        ''' Generate and return a graph containing all walks '''
+        if self.walks.size ==0:
+            raise ValueError('You must first generate the walks with .simulate()')
         
         fig = plt.figure(figsize=(15, 8))
 
-        plt.title(f'{self.P} Caminatas aleatorias', fontsize=16)
-        plt.xlabel("Tiempo", fontsize=14)
+        plt.title(f'{self.num_walks} Randon Walks', fontsize=16)
+        plt.xlabel("Time", fontsize=14)
         plt.ylabel("X_i", fontsize=14)
         plt.grid()
       
-        plt.plot(self.tiempo, self.caminatas)
+        plt.plot(self.time, self.walks)
             
         return fig 

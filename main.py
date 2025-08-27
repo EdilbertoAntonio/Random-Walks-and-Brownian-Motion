@@ -1,9 +1,8 @@
-from src.random_walk import CaminataAleatoria
+from src.random_walk import RandomWalk                                      
 import matplotlib.pyplot as plt
 
-# Crear simulación
-prueba = CaminataAleatoria(deltaT=0.5, N=200, P=50)
-prueba.generar()
-fig = prueba.graficar()
+random_walk = RandomWalk(time_step=0.5, num_steps=200, num_walks=50)
+walks = random_walk.simulate()
+fig = random_walk.plot()
 
 plt.show()
