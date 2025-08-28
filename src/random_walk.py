@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from numpy.typing import NDArray
@@ -12,9 +13,11 @@ class RandomWalk:
         self.time: NDArray = np.array([])
         self.walks: NDArray = np.array([])
         
-    def simulate(self) -> np.ndarray:
-        ''' Generate num_walks random walks, each with num_steps steps.
-            Returns a ndarray of shape (num_steps, num_walks) containing the simulated walks.
+    def simulate(self) -> pd.DataFrame:
+        ''' 
+        Generate num_walks random walks, each with num_steps steps.
+        Returns a pd.DataFrame of shape (num_steps, num_walks) where each column represents one random walk
+            and the index is the time step.
         '''
         if self.seed is not None:
             np.random.seed(self.seed)
@@ -23,7 +26,11 @@ class RandomWalk:
         random_steps = np.random.normal(0,1,(self.num_steps, self.num_walks))
         self.walks = np.cumsum(np.sqrt(self.time_step) * random_steps, axis=0)
 
-        return self.walks
+        return pd.DataFrame(
+            self.walks,
+            index = self.time,
+            columns = [f'walk_{i+1}' for i in range(self.num_walks)]
+        )
         
     def plot(self) -> Figure:
         ''' Generate and return a graph containing all walks '''
