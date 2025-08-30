@@ -5,7 +5,15 @@ from matplotlib.figure import Figure
 from numpy.typing import NDArray
 
 class RandomWalk:
-    def __init__(self, time_step: float, num_steps: int, num_walks: int, seed: int | None = None):
+    def __init__(self, time_step: float, num_steps: int, num_walks: int, seed: int | None = None) -> None:
+        '''
+        Initialize a random walk simulator 
+        Args:
+            time_step (float): time step size
+            num_stp (int): number of steps to simulate
+            num_walks (int): number of walks to simulate
+            seed (int | None, optional): random seed for reproductibility. Default None
+        '''
         self.time_step = time_step
         self.num_steps = num_steps
         self.num_walks = num_walks
@@ -33,7 +41,9 @@ class RandomWalk:
         )
         
     def plot(self) -> Figure:
-        ''' Generate and return a graph containing all walks '''
+        ''' 
+        Generate and return a graph containing all walks 
+        '''
         if self.walks.size ==0:
             raise ValueError('You must first generate the walks with .simulate()')
         
