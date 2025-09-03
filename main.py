@@ -16,5 +16,6 @@ if simulation == 1:
 elif simulation == 2:
     random_walk_3d = BrownianMotion(time_step=1*10**(-6), num_steps=300)
     motion = random_walk_3d.simulate()
-    print(motion)
-    random_walk_3d.plot()
+    # print(motion)
+    # random_walk_3d.plot()
+    animation = random_walk_3d.animate(frame_duration=50, output_file='brownian_animation.html')
